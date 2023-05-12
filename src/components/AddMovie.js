@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
+// Functional component for adding a movie to the database
 const AddMovie = () => {
+  // State Hook for form data, initializes with empty fields
   const [formData, setFormData] = useState({
     title: "",
     poster: "",
@@ -10,30 +14,36 @@ const AddMovie = () => {
     releaseDate: "",
     runningTime: "",
     trailer: "",
+    ticketsAvailable: "",
   });
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    console.log("formData", formData)
-    // fetch("/api/movies", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(formData),
-    // })
-    //   .then((response) => {
-    //     if (response.ok) {
-    //       console.log("Movie added successfully");
-    //     } else {
-    //       console.error("Movie could not be added");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error adding movie:", error);
-    //   });
+  // Function to send a POST request to add a new movie
+  const addMovie = async () => {
+    console.log(formData);
+    const response = await axios.post(
+      "http://localhost:3000/addMovie",
+      formData
+    );
+    console.log("response", response);
+    const movieDetails = await response.data;
+    const movies = await movieDetails.movie;
+    console.log("movies", movies);
+
+    Swal.fire({
+      title: "Movie Added Successfully!",
+      text: "A new movie is added to the database!",
+      icon: "success",
+    });
   };
 
+  // Function to handle form submission
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    console.log("formData", formData);
+    addMovie();
+  };
+
+  // Function to handle input changes and update form data
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
@@ -41,8 +51,10 @@ const AddMovie = () => {
       [name]: value,
     }));
   };
+
+  // Render the form with input fields and submit button
   return (
-    <div className="flex-shrink-0">
+    <div className="flex">
       <div className="container mx-auto p-4">
         <form
           className="bg-white rounded px-8 pt-6 pb-8 mb-4"
@@ -50,13 +62,13 @@ const AddMovie = () => {
         >
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-bold mb-2"
+              className="block text-gray-700 font-bold mb-4"
               htmlFor="title"
             >
               Title
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="ml-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="title"
               name="title"
               type="text"
@@ -170,7 +182,7 @@ const AddMovie = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-bold mb-2"
-              htmlFor="running_time"
+              htmlFor="trailer"
             >
               Trailer
             </label>
@@ -181,6 +193,23 @@ const AddMovie = () => {
               type="text"
               name="trailer"
               value={formData.trailer}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="ticketsAvailable"
+            >
+              Available Tickets
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="ticketsAvailable"
+              placeholder="Enter movie tickets"
+              type="number"
+              name="ticketsAvailable"
+              value={formData.ticketsAvailable}
               onChange={handleInputChange}
             />
           </div>
