@@ -9,10 +9,9 @@ function Movies() {
   // Fetch movies data from the backend API using useEffect hook
   useEffect(() => {
     const getMovies = async () => {
-      const response = await axios.get("http://localhost:3000/fetchMovie");
+      const response = await axios.get("https://cinemafox-project.onrender.com/fetchMovie");
       const Movies = await response.data;
       const allMovies = await Movies.result;
-      console.log(allMovies);
       setMovies(allMovies);
     };
     getMovies();

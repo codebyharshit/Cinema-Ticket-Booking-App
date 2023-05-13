@@ -4,7 +4,6 @@ import Event from "./Event";
 
 // Home Page code which includes the latest movies showing in our Theature
 const Home = () => {
-  console.log("hello");
   return (
     <div className="flex">
       <div className="container">

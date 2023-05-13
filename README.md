@@ -1,4 +1,4 @@
-# Follow the Instructions below to clone and run the repo code
+# Getting Started with Create React App
 
 Clone the Repo in your Desktop/Laptop
 

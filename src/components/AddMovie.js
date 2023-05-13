@@ -19,16 +19,12 @@ const AddMovie = () => {
 
   // Function to send a POST request to add a new movie
   const addMovie = async () => {
-    console.log(formData);
     const response = await axios.post(
-      "http://localhost:3000/addMovie",
+      "https://cinemafox-project.onrender.com/addMovie",
       formData
     );
-    console.log("response", response);
     const movieDetails = await response.data;
     const movies = await movieDetails.movie;
-    console.log("movies", movies);
-
     Swal.fire({
       title: "Movie Added Successfully!",
       text: "A new movie is added to the database!",
@@ -39,7 +35,6 @@ const AddMovie = () => {
   // Function to handle form submission
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    console.log("formData", formData);
     addMovie();
   };
 

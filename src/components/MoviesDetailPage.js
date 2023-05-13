@@ -19,7 +19,6 @@ function MoviesDetailPage() {
 
   // Function to handle the showtime selection
   const handleSelect = (event) => {
-    console.log(event.target.value);
     setShowtime(event.target.value);
   };
 
@@ -32,10 +31,9 @@ function MoviesDetailPage() {
   useEffect(() => {
     const movieDetails = async () => {
       const response = await axios.get(
-        `http://localhost:3000/getMovieInfo?movie=${slug}`
+        `https://cinemafox-project.onrender.com/getMovieInfo?movie=${slug}`
       );
       const movieData = response.data;
-      console.log(typeof movieData.result.ticketsAvailable);
       setMovieInfo(movieData.result);
     };
     movieDetails();
@@ -53,10 +51,9 @@ function MoviesDetailPage() {
 
     // Make a PUT request to update the ticketsAvailable value in the database
     const response = await axios.put(
-      `http://localhost:3000/bookTickets?movie=${slug}`,
+      `https://cinemafox-project.onrender.com/bookTickets?movie=${slug}`,
       updateData
     );
-    console.log("response", response);
 
     // Show a success message to the user and offer the option to download tickets
     Swal.fire({
@@ -79,11 +76,9 @@ function MoviesDetailPage() {
   const downloadTickets = async () => {
     // Make a GET request to download the tickets from the server
     const { data } = await axios.get(
-      `http://localhost:3000/downloadTickets?movie=${slug}&ticket=${ticketCount}&date=${selectedDate}&show=${showtime}`
+      `https://cinemafox-project.onrender.com/downloadTickets?movie=${slug}&ticket=${ticketCount}&date=${selectedDate}&show=${showtime}`
     );
-    console.log("data", data);
     const result = await data.result;
-    console.log("result", result);
     const resultArray = await Object.values(result);
 
     // Create a file object and download it
