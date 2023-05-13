@@ -6,13 +6,18 @@ import moment from "moment";
 import axios from "axios";
 
 function Movies() {
+  const [isLoader, setIsLoader] = useState(false);
   // Fetch movies data from the backend API using useEffect hook
   useEffect(() => {
     const getMovies = async () => {
-      const response = await axios.get("https://cinemafox-project.onrender.com/fetchMovie");
-      const Movies = await response.data;
-      const allMovies = await Movies.result;
-      setMovies(allMovies);
+      setIsLoader(true);
+      const response = await axios.get(
+        "https://cinemafox-project.onrender.com/fetchMovie"
+        );
+        const Movies = await response.data;
+        const allMovies = await Movies.result;
+        setMovies(allMovies);
+        setIsLoader(false);
     };
     getMovies();
   }, []);
@@ -25,6 +30,7 @@ function Movies() {
     <main className="flex-shrink-0">
       <Container className="w-60">
         <h3 className="text-center">Movies Showing</h3>
+        {isLoader ? <div>...wait some time to load the movies</div> : ""}
         <Row md={4}>
           {data.map((item, i) => {
             const url = "/movies/detail/" + item.title;
